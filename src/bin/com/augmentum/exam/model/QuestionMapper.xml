@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.Question">
+    <resultMap type="Question" id="questionMap">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="title" property="title" />
+        <result column="title_text" property="titleText" />
+        <result column="answer" property="answer" />
+        <result column="question_type_id" property="questionTypeId" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="status" property="status" />
+        <result column="author" property="author" />
+        <result column="author_id" property="authorId" />
+        <result column="parent_id" property="parentId" />
+    </resultMap>
+
+    <insert id="add" parameterType="Question" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO question
+                (code, title, title_text, answer, question_type_id, created_time, updated_time, status, author,
+                author_id, parent_id)
+            VALUES
+                (#{code}, #{title}, #{titleText}, #{answer}, #{questionTypeId}, NOW(), NOW(), #{status},
+                #{author}, #{authorId}, #{parentId})
+        ]]>
+    </insert>
+
+    <insert id="addQuestion" parameterType="Question" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO question
+                (code, title, title_text, answer, question_type_id, created_time, updated_time, author, author_id,
+                parent_id)
+            VALUES
+                (#{code}, #{title}, #{titleText}, #{answer}, #{questionTypeId}, NOW(), NOW(),
+                #{author}, #{authorId}, #{parentId})
+        ]]>
+    </insert>
+
+    <select id="getById" parameterType="int" resultMap="questionMap">
+        <![CDATA[
+            SELECT * FROM question WHERE id = #{id}
+        ]]>
+    </select>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM question WHERE id = #{id}
+         ]]>
+    </delete>
+
+    <update id="update" parameterType="Question">
+        <![CDATA[
+            UPDATE question
+            SET
+                code = #{code},
+                title = #{title},
+                title_text = #{titleText},
+                answer = #{answer},
+                question_type_id = #{questionTypeId},
+                updated_time = #{updatedTime},
+                status = #{status},
+                author = #{author},
+                author_id = #{authorId},
+                parent_id = #{parentId}
+            WHERE
+                id = #{id}
+        ]]>
+    </update>
+</mapper>

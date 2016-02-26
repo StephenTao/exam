@@ -1,0 +1,10 @@
+<div class="question-option">
+    <div ng-repeat="option in question.formData.options" class="choice-layer"
+        ng-if="$index < question.formData.options.length-1" class="choice-layer">
+        <label class="checkbox">
+            <span class="checkBtn {{option.background}}"></span>
+        </label>
+        <label class="choice-title" ng-bind="option.character"></label>
+        <div id="{{option.id}}" style="width:80%" class="word-break"></div>
+    </div>
+</div>

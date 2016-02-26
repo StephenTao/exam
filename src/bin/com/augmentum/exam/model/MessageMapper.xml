@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.Message">
+    <resultMap type="Message" id="messagesMap">
+        <id column="id" property="id" />
+        <result column="entity_id" property="entityId" />
+        <result column="message_type_id" property="messageTypeId" />
+        <result column="created_time" property="createdTime" />
+        <result column="title" property="title" />
+    </resultMap>
+
+    <insert id="add" parameterType="Message" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO message
+                (entity_id, message_type_id, title, created_time)
+            VALUES
+                (#{entityId}, #{messageTypeId}, #{title}, NOW())
+        ]]>
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM message WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <update id="update" parameterType="Message">
+        <![CDATA[
+            UPDATE message
+            SET
+                entity_id = #{entityId},
+                message_type_id = #{messageTypeId},
+                title = #{title}
+            WHERE id = #{id}
+        ]]>
+    </update>
+
+    <select id="getById" parameterType="int" resultMap="messagesMap">
+        <![CDATA[
+            SELECT * FROM Message WHERE id = #{id}
+        ]]>
+    </select>
+</mapper>

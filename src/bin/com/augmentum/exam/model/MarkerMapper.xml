@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.Marker">
+
+    <resultMap type="Marker" id="markerMap">
+        <result column="exam_id" property="examId" />
+        <result column="user_id" property="userId" />
+    </resultMap>
+
+    <insert id="add" parameterType="Marker">
+        <![CDATA[
+            INSERT INTO marker(exam_id, user_id) VALUES(#{examId}, #{userId})
+        ]]>
+    </insert>
+
+    <delete id="delete" parameterType="Marker">
+        <![CDATA[
+            DELETE FROM marker WHERE user_id = #{userId} AND exam_id = #{examId}
+        ]]>
+    </delete>
+
+    <select id="getByExamId" parameterType="int" resultMap="com.augmentum.exam.model.User.userMap">
+        <![CDATA[
+            SELECT u.*
+            FROM user AS u
+            INNER JOIN marker AS m
+            ON
+                m.exam_id = #{examId}
+                AND m.user_id = u.id
+        ]]>
+    </select>
+</mapper>

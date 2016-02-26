@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.ExamineeAnswer">
+
+    <resultMap type="ExamineeAnswer" id="examineeAnswerMap">
+        <result column="examinee_id" property="examineeId" />
+        <result column="paper_question_id" property="paperQuestionId" />
+        <result column="score" property="score" />
+        <result column="answer" property="answer" />
+        <result column="comment" property="comment" />
+        <result column="markers" property="markers" />
+    </resultMap>
+
+    <insert id="add" parameterType="ExamineeAnswer">
+        <![CDATA[
+            INSERT INTO map_examinee_answer
+                (examinee_id, paper_question_id, score, answer, comment, markers)
+            VALUES
+                (#{examineeId}, #{paperQuestionId}, #{score}, #{answer}, #{comment}, #{markers})
+        ]]>
+    </insert>
+
+    <update id="update" parameterType="ExamineeAnswer">
+        <![CDATA[
+            UPDATE map_examinee_answer
+            SET
+                score = #{score},
+                answer = #{answer},
+                comment = #{comment},
+                markers = #{markers}
+            WHERE
+                examinee_id = #{examineeId}
+                AND paper_question_id = #{paperQuestionId}
+        ]]>
+    </update>
+
+    <select id="getByIds" parameterType="Map" resultMap="examineeAnswerMap">
+        <![CDATA[
+            SELECT *
+            FROM map_examinee_answer
+            WHERE
+                examinee_id = #{examineeId}
+                AND paper_question_id = #{paperQuestionId}
+        ]]>
+    </select>
+
+    <select id="getByExamineeId" parameterType="int" resultMap="examineeAnswerMap">
+        <![CDATA[
+            SELECT * FROM map_examinee_answer WHERE examinee_id = #{examineeId}
+        ]]>
+    </select>
+
+</mapper>

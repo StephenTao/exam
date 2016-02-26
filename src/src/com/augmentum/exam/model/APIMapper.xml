@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.API">
+    <resultMap type="API" id="apiMap">
+        <id column="id" property="id" />
+        <result column="description" property="description" />
+        <result column="url" property="url" />
+        <result column="status" property="status" />
+        <result column="method" property="method" />
+        <result column="limit" property="limit" />
+        <result column="name" property="name" />
+        <result column="icon" property="icon" />
+    </resultMap>
+
+    <insert id="add" parameterType="API" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO api
+                (name, `limit`, method, url, status, description, icon)
+            VALUES
+                (#{name}, #{limit}, #{method}, #{url}, #{status}, #{description}, #{icon})
+        ]]>
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM api WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <update id="update" parameterType="API">
+        <![CDATA[
+            UPDATE api
+            SET
+                name = #{name},
+                description = #{description},
+                url = #{url},
+                method = #{method},
+                icon = #{icon},
+                `limit` = #{limit},
+                status = #{status}
+            WHERE id = #{id}
+        ]]>
+    </update>
+
+    <select id="getById" parameterType="int" resultMap="apiMap">
+        <![CDATA[
+            SELECT * FROM api WHERE id = #{id}
+        ]]>
+    </select>
+</mapper>

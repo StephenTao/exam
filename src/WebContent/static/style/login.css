@@ -1,0 +1,116 @@
+@charset "utf-8";
+body {
+    background: url(../images/bg_body.png) repeat;
+    min-height: 580px;
+    overflow: hidden;
+    margin-top: 60px;
+}
+header {
+    background: #495551;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+    height: 60px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2000;
+}
+.inner-wrap {
+    margin: 0 auto;
+    width: 90%;
+}
+.main-logo-login {
+    background: url(../images/logo-login.png) no-repeat;
+    display: block;
+    height: 58px;
+    width: 208px;
+}
+.language {
+    line-height: 60px;
+    color: #C5DADE;
+}
+footer {
+    margin: 10px 0;
+    font: 0.85em tahoma ,宋体;
+    width: 100%;
+    position: fixed;
+    bottom: 40px;
+}
+footer p {
+    text-align: center;
+}
+.error-message {
+    color: #d9534f;
+    font-size: 18px;
+    left: 20px;
+    position: absolute;
+    top: 255px;
+}
+.wrapper {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+.login-main {
+    border-radius: 10px;
+    height: 400px;
+    position: relative;
+    width: 500px;
+}
+.title {
+    height: 30px;
+    margin: 0px auto;
+    padding: 43px 0;
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    color: #00A48B;
+    font-weight: bolder;
+}
+
+.login-btn {
+    background: #00A68A !important;
+    border: none;
+    border-radius: 5px;
+    color: #FFF;
+    margin-top: 30px;
+    padding: 0;
+    width: 47%;
+    height: 50px;
+    font-size: 20px;
+    line-height: 50px;
+}
+.reset {
+    background: #FFF !important;
+    border: 1px solid #00A68A;
+    color: #00A68A;
+    text-align: center;
+}
+.line {
+    background: #ABADAC;
+    border-radius: 5px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    margin: 0 auto;
+    color: #FFF;
+    margin-bottom: 20px;
+    padding: 0px 20px 0px 20px;
+    -moz-box-shadow:5px 5px 5px #8D9492;
+    -webkit-box-shadow:5px 5px 5px #8D9492;
+    box-shadow:5px 5px 5px #8D9492;
+}
+.line input {
+    width: 70%;
+    padding: 10px;
+    margin-left: 10px;
+    border-width: 0px;
+    border-radius: 5px;
+    float: left;
+}
+.line p {
+    width: 21%;
+    float: left;
+    border-right: 2px solid #888F8D;
+    margin: 0px;
+}

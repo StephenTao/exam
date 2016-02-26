@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.PaperTag">
+
+    <resultMap type="PaperTag" id="PaperTagMap">
+        <result column="paper_id" property="paperId" />
+        <result column="tag_id" property="tagId" />
+    </resultMap>
+
+    <insert id="add" parameterType="PaperTag">
+        <![CDATA[
+            INSERT INTO map_paper_tag(paper_id, tag_id) VALUES(#{paperId}, #{tagId})
+        ]]>
+    </insert>
+
+    <delete id="delete" parameterType="PaperTag">
+        <![CDATA[
+            DELETE FROM map_paper_tag WHERE paper_id = #{paperId} AND tag_id = #{tagId}
+        ]]>
+    </delete>
+
+    <select id="getByPaperId" parameterType="int" resultMap="com.augmentum.exam.model.Tag.tagMap">
+        <![CDATA[
+            SELECT t.*
+            FROM tag AS t
+            INNER JOIN map_paper_tag AS p
+            ON
+                p.paper_id = #{paperId}
+                AND p.tag_id = t.id
+        ]]>
+    </select>
+</mapper>

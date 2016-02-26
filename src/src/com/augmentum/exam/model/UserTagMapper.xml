@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.UserTag">
+    <resultMap type="UserTag" id="userTagMap">
+        <result column="user_id" property="userId" />
+        <result column="tag_id" property="tagId" />
+    </resultMap>
+
+    <insert id="add" parameterType="UserTag">
+        <![CDATA[
+            INSERT INTO map_user_tag (user_id, tag_id) VALUES (#{userId}, #{tagId})
+        ]]>
+    </insert>
+
+    <delete id="delete" parameterType="UserTag">
+        <![CDATA[
+            DELETE FROM map_user_tag WHERE user_id = #{userId} AND tag_id = #{tagId}
+        ]]>
+    </delete>
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.Exam">
+    <resultMap type="Exam" id="examMap">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="code" property="code" />
+        <result column="description" property="description" />
+        <result column="end_time" property="endTime" />
+        <result column="start_time" property="startTime" />
+        <result column="duration" property="duration" />
+        <result column="is_published" property="published" />
+        <result column="is_result_published" property="resultPublished" />
+        <result column="attended_count" property="attendedCount" />
+        <result column="examinee_count" property="examineeCount" />
+        <result column="pass_rate" property="passRate" />
+        <result column="pass_score" property="passScore" />
+        <result column="average" property="average" />
+    </resultMap>
+
+    <insert id="add" parameterType="Exam" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO exam
+                (name, code, description, start_time, end_time, duration, is_published, is_result_published, pass_rate,
+                    pass_score, attended_count, examinee_count, average)
+            VALUES
+                (#{name}, #{code}, #{description}, #{startTime}, #{endTime}, #{duration}, #{published}, #{resultPublished},
+                    #{passRate}, #{passScore}, #{attendedCount}, #{examineeCount}, #{average})
+        ]]>
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM exam WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <update id="update" parameterType="Exam">
+        <![CDATA[
+            UPDATE exam
+            SET
+                name = #{name},
+                description = #{description},
+                code = #{code},
+                start_time = #{startTime},
+                end_time = #{endTime},
+                duration = #{duration},
+                is_published = #{published},
+                is_result_published = #{resultPublished},
+                pass_rate = #{passRate},
+                attended_count = #{attendedCount},
+                examinee_count = #{examineeCount},
+                average = #{average},
+                pass_score = #{passScore}
+            WHERE id = #{id}
+        ]]>
+    </update>
+
+    <select id="getById" parameterType="int" resultMap="examMap">
+        <![CDATA[
+            SELECT * FROM exam WHERE id = #{id}
+        ]]>
+    </select>
+</mapper>

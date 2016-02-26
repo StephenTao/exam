@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.Paper">
+    <resultMap type="Paper" id="paperMap">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="name" property="name" />
+        <result column="advice_duration" property="adviceDuration" />
+        <result column="description" property="description" />
+        <result column="creator_id" property="creatorId" />
+        <result column="created_time" property="createdTime" />
+        <result column="status" property="status" />
+        <result column="total_score" property="totalScore" />
+        <result column="total_question" property="totalQuestion" />
+        <result column="refer_paper_id" property="referPaperId" />
+        <result column="shadow_of" property="shadowOf" />
+    </resultMap>
+
+    <insert id="add" parameterType="Paper" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO paper
+                (code, name, advice_duration, description, creator_id, created_time, status, total_score, total_question,
+                refer_paper_id, shadow_of)
+            VALUES
+                (#{code}, #{name}, #{adviceDuration}, #{description}, #{creatorId}, NOW(), #{status}, #{totalScore},
+                #{totalQuestion}, #{referPaperId}, #{shadowOf})
+        ]]>
+    </insert>
+
+    <select id="getById" parameterType="int" resultMap="paperMap">
+        <![CDATA[
+            SELECT * FROM paper WHERE id = #{id}
+        ]]>
+    </select>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM paper WHERE id = #{id}
+         ]]>
+    </delete>
+
+    <update id="update" parameterType="Paper">
+        <![CDATA[
+            UPDATE paper
+            SET
+                code = #{code},
+                name = #{name},
+                advice_duration = #{adviceDuration},
+                description = #{description},
+                creator_id = #{creatorId},
+                status = #{status},
+                total_score = #{totalScore},
+                total_question = #{totalQuestion},
+                refer_paper_id = #{referPaperId},
+                shadow_of = #{shadowOf}
+            WHERE
+                id = #{id}
+        ]]>
+    </update>
+
+</mapper>

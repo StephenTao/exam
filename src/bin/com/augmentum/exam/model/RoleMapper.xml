@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.Role">
+
+    <resultMap type="Role" id="roleMap">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="name" property="name" />
+        <result column="weight" property="weight" />
+    </resultMap>
+
+    <insert id="add" parameterType="Role" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO role(code, name, weight) VALUES(#{code}, #{name}, #{weight})
+        ]]>
+    </insert>
+
+    <select id="getById" parameterType="int" resultMap="roleMap">
+        <![CDATA[
+            SELECT * FROM role WHERE id = #{id}
+        ]]>
+    </select>
+
+    <update id="update" parameterType="Role">
+        <![CDATA[
+            UPDATE role SET name = #{name}, code = #{code}, weight = #{weight} WHERE id = #{id}
+        ]]>
+    </update>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM role WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <select id="getByCode" parameterType="String" resultMap="roleMap">
+        <![CDATA[
+            SELECT * FROM role WHERE code = #{code}
+        ]]>
+    </select>
+
+</mapper>

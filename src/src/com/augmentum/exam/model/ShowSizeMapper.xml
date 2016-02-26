@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.ShowSize">
+    <resultMap type="ShowSize" id="showSizeMap">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="page_size" property="pageSize" />
+        <result column="category" property="category" />
+        <result column="is_default_showed" property="defaultShowed" />
+    </resultMap>
+
+    <insert id="add" parameterType="ShowSize" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO show_size
+                (user_id, page_size, category, is_default_showed)
+            VALUES
+                (#{userId}, #{pageSize}, #{category}, #{defaultShowed})
+        ]]>
+    </insert>
+
+    <select id="getById" parameterType="int" resultMap="showSizeMap">
+        <![CDATA[
+            SELECT * FROM show_size WHERE id = #{id}
+        ]]>
+    </select>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM show_size WHERE id = #{id}
+         ]]>
+    </delete>
+
+    <update id="update" parameterType="ShowSize">
+        <![CDATA[
+            UPDATE show_size
+            SET
+                user_id = #{userId},
+                page_size = #{pageSize},
+                category = #{category},
+                is_default_showed = #{defaultShowed}
+            WHERE
+                id = #{id}
+        ]]>
+    </update>
+
+</mapper>

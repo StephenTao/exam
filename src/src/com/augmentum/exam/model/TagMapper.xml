@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.Tag">
+    <resultMap type="Tag" id="tagMap">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="parent_id" property="parentId" />
+        <result column="weight" property="weight" />
+    </resultMap>
+
+    <insert id="add" parameterType="Tag" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO tag (name, parent_id, weight) VALUES (#{name}, #{parentId}, #{weight})
+        ]]>
+    </insert>
+
+    <select id="getById" parameterType="int" resultMap="tagMap">
+        <![CDATA[
+            SELECT * FROM tag WHERE id = #{id}
+        ]]>
+    </select>
+
+    <select id="findByName" parameterType="string" resultMap="tagMap">
+        <![CDATA[
+            SELECT * FROM tag WHERE name like '%${_parameter}%' limit 4
+        ]]>
+    </select>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM tag WHERE id = #{id}
+         ]]>
+    </delete>
+
+    <update id="update" parameterType="Tag">
+        <![CDATA[
+            UPDATE tag SET name = #{name}, parent_id = #{parentId} WHERE id = #{id}
+        ]]>
+    </update>
+
+    <select id="findAll" resultMap="tagMap">
+        <![CDATA[
+            SELECT * FROM tag
+        ]]>
+    </select>
+
+</mapper>

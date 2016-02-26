@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:hdp="http://www.springframework.org/schema/hadoop"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+        http://www.springframework.org/schema/cache
+        http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.1.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+    <util:map id="privilegesMap" map-class="java.util.HashMap">
+        <entry key="APIController-add-post"><value>superAdmin</value></entry>
+        <entry key="APIController-delete-delete"><value>superAdmin</value></entry>
+        <entry key="APIController-update-put"><value>superAdmin</value></entry>
+        <entry key="APIController-getById-get"><value>user,examAdmin,questionAdmin,superAdmin</value></entry>
+        <entry key="ExamController-add-post"><value>superAdmin,examAdmin</value></entry>
+        <entry key="ExamController-delete-delete"><value>superAdmin,examAdmin</value></entry>
+        <entry key="ExamController-update-put"><value>superAdmin,examAdmin</value></entry>
+        <entry key="ExamController-getById-get"><value>superAdmin,examAdmin</value></entry>
+        <entry key="ExamineeController-add-post"><value>superAdmin,examAdmin</value></entry>
+        <entry key="ExamineeController-delete-delete"><value>superAdmin,examAdmin</value></entry>
+        <entry key="ExamineeController-update-put"><value>superAdmin,examAdmin</value></entry>
+        <entry key="ExamineeController-getById-get"><value>superAdmin,examAdmin</value></entry>
+        <entry key="LogHistoryController-add-post"><value>superAdmin</value></entry>
+        <entry key="LogHistoryController-getById-get"><value>superAdmin</value></entry>
+        <entry key="LogController-add-post"><value>superAdmin,examAdmin</value></entry>
+        <entry key="LogController-getById-get"><value>superAdmin,examAdmin</value></entry>
+        <entry key="MessageController-add-post"><value>superAdmin,examAdmin,questionAdmin</value></entry>
+        <entry key="MessageController-delete-delete"><value>superAdmin,examAdmin,questionAdmin</value></entry>
+        <entry key="MessageController-update-put"><value>superAdmin,examAdmin,questionAdmin</value></entry>
+        <entry key="MessageController-getById-get"><value>examAdmin,questionAdmin,superAdmin</value></entry>
+        <entry key="MessageHistoryController-add-post"><value>superAdmin,examAdmin,questionAdmin</value></entry>
+        <entry key="MessageHistoryController-delete-delete"><value>superAdmin,examAdmin,questionAdmin</value></entry>
+        <entry key="MessageHistoryController-update-put"><value>superAdmin,examAdmin,questionAdmin</value></entry>
+        <entry key="MessageHistoryController-getById-get"><value>superAdmin,examAdmin,questionAdmin</value></entry>
+        <entry key="PaperController-add-post"><value>superAdmin,examAdmin</value></entry>
+        <entry key="PaperController-delete-delete"><value>superAdmin,examAdmin</value></entry>
+        <entry key="PaperController-update-put"><value>superAdmin,examAdmin</value></entry>
+        <entry key="PaperController-getById-get"><value>superAdmin,examAdmin</value></entry>
+        <entry key="PaperPartController-add-post"><value>superAdmin,examAdmin</value></entry>
+        <entry key="PaperPartController-delete-delete"><value>superAdmin,examAdmin</value></entry>
+        <entry key="PaperPartController-update-put"><value>superAdmin,examAdmin</value></entry>
+        <entry key="PaperPartController-getById-get"><value>superAdmin,examAdmin</value></entry>
+        <entry key="PaperQuestionController-add-post"><value>superAdmin,examAdmin</value></entry>
+        <entry key="PaperQuestionController-delete-delete"><value>superAdmin,examAdmin</value></entry>
+        <entry key="PaperQuestionController-update-put"><value>superAdmin,examAdmin</value></entry>
+        <entry key="PaperQuestionController-getById-get"><value>superAdmin,examAdmin</value></entry>
+        <entry key="QuestionCommentController-add-post"><value>superAdmin,questionAdmin</value></entry>
+        <entry key="QuestionCommentController-delete-delete"><value>superAdmin,questionAdmin</value></entry>
+        <entry key="QuestionCommentController-update-put"><value>superAdmin,questionAdmin</value></entry>
+        <entry key="QuestionCommentController-getById-get"><value>user,examAdmin,questionAdmin,superAdmin</value></entry>
+        <entry key="QuestionController-add-post"><value>superAdmin,questionAdmin</value></entry>
+        <entry key="QuestionController-delete-delete"><value>superAdmin,questionAdmin</value></entry>
+        <entry key="QuestionController-update-put"><value>superAdmin,questionAdmin</value></entry>
+        <entry key="QuestionController-getById-get"><value>superAdmin,questionAdmin</value></entry>
+        <entry key="QuestionCopyController-add-post"><value>superAdmin,questionAdmin</value></entry>
+        <entry key="QuestionCopyController-delete-delete"><value>superAdmin,questionAdmin</value></entry>
+        <entry key="QuestionCopyController-update-put"><value>superAdmin,questionAdmin</value></entry>
+        <entry key="QuestionCopyController-getById-get"><value>superAdmin,questionAdmin</value></entry>
+        <entry key="QuestionTypeController-add-post"><value>superAdmin,questionAdmin</value></entry>
+        <entry key="QuestionTypeController-delete-delete"><value>superAdmin,questionAdmin</value></entry>
+        <entry key="QuestionTypeController-update-put"><value>superAdmin,questionAdmin</value></entry>
+        <entry key="QuestionTypeController-getById-get"><value>superAdmin,examAdmin,questionAdmin</value></entry>
+        <entry key="RoleController-add-post"><value>superAdmin</value></entry>
+        <entry key="RoleController-delete-delete"><value>superAdmin</value></entry>
+        <entry key="RoleController-update-put"><value>superAdmin</value></entry>
+        <entry key="RoleController-getById-get"><value>superAdmin</value></entry>
+        <entry key="ShowFieldController-add-post"><value>superAdmin,examAdmin,questionAdmin,user</value></entry>
+        <entry key="ShowFieldController-delete-delete"><value>superAdmin,examAdmin,questionAdmin,user</value></entry>
+        <entry key="ShowFieldController-update-put"><value>superAdmin,examAdmin,questionAdmin,user</value></entry>
+        <entry key="ShowFieldController-getById-get"><value>user,examAdmin,questionAdmin,superAdmin</value></entry>
+        <entry key="ShowSizeController-add-post"><value>superAdmin,examAdmin,questionAdmin,user</value></entry>
+        <entry key="ShowSizeController-delete-delete"><value>superAdmin,examAdmin,questionAdmin,user</value></entry>
+        <entry key="ShowSizeController-update-put"><value>superAdmin,examAdmin,questionAdmin,user</value></entry>
+        <entry key="ShowSizeController-getById-get"><value>superAdmin,examAdmin,questionAdmin,user</value></entry>
+        <entry key="TagController-add-post"><value>superAdmin,examAdmin,questionAdmin,user</value></entry>
+        <entry key="TagController-delete-delete"><value>superAdmin,examAdmin,questionAdmin,user</value></entry>
+        <entry key="TagController-update-put"><value>superAdmin,examAdmin,questionAdmin,user</value></entry>
+        <entry key="TagController-getById-get"><value>superAdmin,examAdmin,questionAdmin,user</value></entry>
+        <entry key="UserAPIController-add-post"><value>user</value></entry>
+        <entry key="UserAPIController-delete-delete"><value>user</value></entry>
+        <entry key="UserAPIController-update-put"><value>superAdminuser</value></entry>
+        <entry key="UserAPIController-getById-get"><value>superAdmin,user</value></entry>
+        <entry key="UserController-add-post"><value>superAdmin</value></entry>
+        <entry key="UserController-delete-delete"><value>superAdmin</value></entry>
+        <entry key="UserController-update-put"><value>superAdmin</value></entry>
+        <entry key="UserController-getById-get"><value>superAdmin</value></entry>
+        <entry key="UserMessageController-add-post"><value>user</value></entry>
+        <entry key="UserMessageController-delete-delete"><value>user</value></entry>
+        <entry key="UserMessageController-update-put"><value>user</value></entry>
+        <entry key="UserMessageController-getById-get"><value>user</value></entry>
+    </util:map>
+    <util:list id="openPrivileges">
+        <value>I18nController-language-post</value>
+        <value>APIController-getById-get</value>
+        <value>QuestionController-getById-get</value>
+        <value>TagController-getById-get</value>
+        <value>UserPageController-login-get</value>
+        <value>UserPageController-login-post</value>
+    </util:list>
+</beans>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.PaperPart">
+
+    <resultMap type="PaperPart" id="PaperPartMap">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="total_question" property="totalQuestion" />
+        <result column="total_score" property="totalScore" />
+        <result column="description" property="description" />
+        <result column="order" property="order" />
+        <result column="paper_id" property="paperId" />
+    </resultMap>
+
+    <insert id="add" parameterType="PaperPart" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO paper_part
+                (name, total_question, total_score, description, `order`, paper_id)
+            VALUES
+                (#{name}, #{totalQuestion}, #{totalScore}, #{description}, #{order}, #{paperId})
+        ]]>
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM paper_part WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <update id="update">
+        <![CDATA[
+            UPDATE paper_part
+            SET
+                name = #{name},
+                total_question = #{totalQuestion},
+                total_score = #{totalScore},
+                description = #{description},
+                `order` = #{order},
+                paper_id = #{paperId}
+            WHERE id = #{id}
+        ]]>
+    </update>
+
+    <select id="getById" parameterType="int" resultMap="PaperPartMap">
+        <![CDATA[
+            SELECT * FROM paper_part WHERE id = #{id}
+        ]]>
+    </select>
+</mapper>

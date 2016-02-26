@@ -1,0 +1,18 @@
+<html>
+<head>
+<title>ddfdsfds</title>
+</head>
+<script src="../../js/lib/jquery-2.1.4.min.js"></script>
+<script src="../../js/lib/jquery.zclip.min.js"></script>
+<body>
+    <div id="copyId" rel="#p1">copy</div>
+    <p id="p1">任何人都会</p>
+    <script>
+    $('#copyId').zclip({
+        copy : function() {
+            return $(this.getAttribute('rel')).html();
+        }
+    });
+</script>
+</body>
+</html>

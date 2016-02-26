@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.PaperQuestionOption">
+    <resultMap type="PaperQuestionOption" id="paperQuestionOptionMap">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="title_text" property="titleText" />
+        <result column="correct" property="correct" />
+        <result column="paper_question_id" property="paperQuestionId" />
+        <result column="order" property="order" />
+    </resultMap>
+
+    <insert id="add" parameterType="PaperQuestionOption" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO paper_question_option
+                (title, title_text, correct, paper_question_id, `order`)
+            VALUES
+                (#{title}, #{titleText}, #{correct}, #{paperQuestionId}, #{order})
+        ]]>
+    </insert>
+
+    <select id="getById" parameterType="int" resultMap="paperQuestionOptionMap">
+        <![CDATA[
+            SELECT * FROM paper_question_option WHERE id = #{id}
+        ]]>
+    </select>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM paper_question_option WHERE id = #{id}
+         ]]>
+    </delete>
+
+    <update id="update" parameterType="PaperQuestionOption">
+        <![CDATA[
+            UPDATE paper_question_option
+            SET
+                title = #{title},
+                title_text = #{titleText},
+                correct = #{correct},
+                paper_question_id = #{paperQuestionId},
+                `order` = #{order}
+            WHERE id = #{id}
+        ]]>
+    </update>
+
+</mapper>

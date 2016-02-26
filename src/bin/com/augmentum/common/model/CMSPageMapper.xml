@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.common.model.CMSPage">
+    <resultMap type="CMSPage" id="cmsPageMap">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="url" property="url"/>
+        <result column="content" property="content"/>
+        <result column="template" property="template"/>
+        <result column="meta_keywords" property="metaKeywords"/>
+        <result column="meta_description" property="metaDescription"/>
+        <result column="creator" property="creator"/>
+        <result column="created_time" property="createdTime"/>
+    </resultMap>
+
+    <resultMap type="com.augmentum.common.dto.CMSPageDTO" id="cmsPageDTOMap">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="url" property="url"/>
+        <result column="content" property="content"/>
+        <result column="template" property="template"/>
+        <result column="meta_keywords" property="metaKeywords"/>
+        <result column="meta_description" property="metaDescription"/>
+        <result column="creator" property="creator"/>
+        <result column="creator_name" property="creatorName"/>
+        <result column="created_time" property="createdTime"/>
+    </resultMap>
+
+    <insert id="add" parameterType="CMSPage" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO cms_page
+                (title, url, content, template, meta_keywords, meta_description, creator, created_time) 
+            VALUES
+                (#{title}, #{url}, #{content}, #{template}, #{metaKeywords}, #{metaDescription}, #{creator}, NOW())
+        ]]>
+    </insert>
+
+    <update id="delete" parameterType="Integer">
+        <![CDATA[
+            DELETE FROM cms_page WHERE id = #{id}
+         ]]>
+    </update>
+
+    <update id="update" parameterType="CmsPage">
+        <![CDATA[
+            UPDATE cms_page
+            SET
+                title = #{title},
+                url = #{url},
+                content = #{content},
+                template = #{template},
+                meta_keywords = #{metaKeywords},
+                meta_description = #{metaDescription}
+            WHERE
+                id = #{id}
+        ]]>
+    </update>
+
+    <select id="getById" parameterType="Integer" resultMap="cmsPageMap">
+        <![CDATA[
+            SELECT * FROM cms_page WHERE id = #{id}
+        ]]>
+    </select>
+
+     <sql id="pagination">
+        <if test="offset != null and rowCount != null">
+            <![CDATA[
+                LIMIT #{offset},#{rowCount}
+            ]]>
+        </if>
+    </sql>
+
+    <select id="getByUrl" parameterType="String" resultMap="cmsPageDTOMap">
+        <![CDATA[
+            SELECT * FROM cms_page WHERE url = #{pageUrl}
+        ]]>
+    </select>
+
+    <select id="findCMSPages" parameterType="map" resultMap="cmsPageDTOMap">
+        <![CDATA[
+            SELECT
+                cp.id AS id,
+                cp.title AS title,
+                cp.url AS url,
+                cp.meta_keywords AS meta_keywords,
+                cp.meta_description AS meta_description,
+                cp.creator AS creator,
+                cp.created_time AS created_time,
+                us.user_name AS creator_name
+            FROM cms_page cp
+            INNER JOIN user us
+            ON
+                cp.creator = us.id
+            WHERE
+                us.is_deleted = 0
+        ]]>
+        <if test="keywords != null">
+            <![CDATA[
+                AND cp.title LIKE CONCAT('%',#{keywords},'%')
+            ]]>
+        </if>
+        <![CDATA[
+            ORDER BY id DESC
+        ]]>
+        <include refid="pagination"/>
+    </select>
+
+    <select id="getCMSPageCount" parameterType="map" resultType="Integer">
+        <![CDATA[
+            SELECT COUNT(id)
+            FROM cms_page
+        ]]>
+        <if test="keywords != null">
+            <![CDATA[
+                WHERE title LIKE CONCAT('%',#{keywords},'%')
+            ]]>
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.QuestionOption">
+    <resultMap type="QuestionOption" id="questionOptionMap">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="title_text" property="titleText" />
+        <result column="correct" property="correct" />
+        <result column="question_id" property="questionId" />
+        <result column="order" property="order" />
+    </resultMap>
+
+    <insert id="add" parameterType="QuestionOption" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO question_option
+                (title, title_text, correct, question_id, `order`)
+            VALUES
+                (#{title}, #{titleText}, #{correct}, #{questionId}, #{order})
+        ]]>
+    </insert>
+
+    <select id="getById" parameterType="int" resultMap="questionOptionMap">
+        <![CDATA[
+            SELECT * FROM question_option WHERE id = #{id}
+        ]]>
+    </select>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM question_option WHERE id = #{id}
+         ]]>
+    </delete>
+
+    <update id="update" parameterType="QuestionOption">
+        <![CDATA[
+            UPDATE question_option
+            SET
+                title = #{title},
+                title_text = #{titleText},
+                correct = #{correct},
+                `order` = #{order}
+            WHERE
+                question_id = #{questionId}
+                AND id = #{id}
+        ]]>
+    </update>
+
+    <select id="findByQuestionId" parameterType="int" resultMap="questionOptionMap">
+        <![CDATA[
+            SELECT * FROM question_option WHERE question_id = #{questionId} ORDER BY `order` ASC
+        ]]>
+    </select>
+
+    <delete id="deleteByQuestionId" parameterType="int">
+        <![CDATA[
+            DELETE FROM question_option WHERE question_id = #{questionId}
+        ]]>
+    </delete>
+
+</mapper>

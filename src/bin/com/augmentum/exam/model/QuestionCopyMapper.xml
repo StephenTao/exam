@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.QuestionCopy">
+    <resultMap type="QuestionCopy" id="questionCopyMap">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="title" property="title" />
+        <result column="title_text" property="titleText" />
+        <result column="answer" property="answer" />
+        <result column="question_type_id" property="questionTypeId" />
+        <result column="source" property="source" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="status" property="status" />
+        <result column="author" property="author" />
+        <result column="author_id" property="authorId" />
+        <result column="parent_id" property="parentId" />
+        <result column="is_deleted" property="deleted" />
+    </resultMap>
+
+    <insert id="add" parameterType="QuestionCopy">
+        <![CDATA[
+            INSERT INTO question_copy
+                (id, code, title, title_text, answer, question_type_id, source, created_time, updated_time, status, author, author_id, parent_id, is_deleted)
+            VALUES
+                (#{id}, #{code}, #{title}, #{titleText}, #{answer}, #{questionTypeId}, #{source}, #{createdTime}, #{updatedTime}, #{status}, #{author}, #{authorId}, #{parentId}, #{deleted})
+        ]]>
+    </insert>
+
+    <select id="getById" parameterType="int" resultMap="questionCopyMap">
+        <![CDATA[
+            SELECT * FROM question_copy WHERE id = #{id}
+        ]]>
+    </select>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM question_copy WHERE id = #{id}
+         ]]>
+    </delete>
+
+    <update id="update" parameterType="QuestionCopy">
+        <![CDATA[
+            UPDATE question_copy
+            SET
+                code = #{code},
+                title = #{title},
+                title_text = #{titleText},
+                answer = #{answer},
+                question_type_id = #{questionTypeId},
+                source = #{source},
+                updated_time = NOW(),
+                status = #{status},
+                author = #{author},
+                author_id = #{authorId},
+                parent_id = #{parentId},
+                is_deleted = #{deleted}
+            WHERE id = #{id}
+        ]]>
+    </update>
+
+</mapper>

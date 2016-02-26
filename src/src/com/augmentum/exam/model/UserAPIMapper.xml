@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.UserAPI">
+    <resultMap type="UserAPI" id="userAPIMap">
+        <id column="id" property="id" />
+        <result column="api_id" property="apiId" />
+        <result column="user_id" property="userId" />
+        <result column="ip" property="ip" />
+        <result column="key" property="key" />
+        <result column="status" property="status" />
+        <result column="reason" property="reason" />
+        <result column="created_time" property="createdTime" />
+        <result column="comment" property="comment" />
+        <result column="phone" property="phone" />
+        <result column="email" property="email" />
+        <result column="app_name" property="appName" />
+    </resultMap>
+
+    <insert id="add" parameterType="UserAPI" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO user_api
+                (api_id, app_name, user_id, ip, `key`, status, comment, reason, phone, email, created_time)
+            VALUES
+                (#{apiId}, #{appName}, #{userId}, #{ip}, #{key}, #{status}, #{comment}, #{reason}, #{phone}, #{email}, NOW())
+        ]]>
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM user_api WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <update id="update" parameterType="UserAPI">
+        <![CDATA[
+            UPDATE user_api
+            SET
+                app_name = #{appName},
+                user_id = #{userId},
+                api_id = #{apiId},
+                status = #{status},
+                ip = #{ip},
+                `key` = #{key},
+                phone = #{phone},
+                email = #{email},
+                comment = #{comment},
+                reason = #{reason}
+            WHERE id = #{id}
+        ]]>
+    </update>
+
+    <select id="getById" parameterType="int" resultMap="userAPIMap">
+        <![CDATA[
+            SELECT * FROM user_api WHERE id = #{id}
+        ]]>
+    </select>
+</mapper>

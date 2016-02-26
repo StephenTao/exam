@@ -1,0 +1,23 @@
+<div class="upload-id">
+    <div class="prew-img font-style12">
+        <div class="close-btn">
+            <img title="close" ng-click="hide()" class="hand" ng-src="{{question.closeBtn}}" />
+        </div>
+        <div class="file-name">
+            <div id="fileName" class="block-style02 file-name-child word-break" ng-bind="fileName"></div>
+            <div class="layout-left file-name-child02">
+                <span ng-bind="uploadFile.message"></span>
+                <i class="note db font-style08">{{errFile.$error}} {{errFile.$errorParam}}</i>
+            </div>
+        </div>
+    </div>
+    <div class="button font-style06">
+        <div ng-model="file" class="select hand block-style02" ngf-select="upload($file, $invalidFiles)"
+            ngf-pattern="uploadFile.type" ngf-accept="uploadFile.type" ngf-max-size="uploadFile.size">
+            <span class="button-style">Select&save</span>
+        </div>
+        <div class="block-style02 copy hand" id="copyId" rel="#fileName" >
+            <span class="button-style">Copy name</span>
+        </div>
+    </div>
+</div>

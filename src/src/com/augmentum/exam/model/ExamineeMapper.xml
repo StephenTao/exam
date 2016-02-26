@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.Examinee">
+
+    <resultMap type="Examinee" id="examineeMap">
+        <id column="id" property="id" />
+        <id column="user_id" property="userId" />
+        <id column="exam_id" property="examId" />
+        <id column="paper_id" property="paperId" />
+        <result column="score" property="score" />
+        <result column="attended_time" property="attendedTime" />
+        <result column="answered_count" property="answeredCount" />
+        <result column="comment" property="comment" />
+        <result column="markers" property="markers" />
+    </resultMap>
+
+    <insert id="add" parameterType="Examinee" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO examinee
+                (user_id, exam_id, paper_id, score, attended_time, answered_count, comment, markers)
+            VALUES
+                (#{userId}, #{examId}, #{paperId}, #{score}, #{attendedTime}, #{answeredCount}, #{comment}, #{markers})
+        ]]>
+    </insert>
+
+    <select id="getById" parameterType="int" resultMap="examineeMap">
+        <![CDATA[
+            SELECT * FROM examinee WHERE id = #{id}
+        ]]>
+    </select>
+
+    <update id="update" parameterType="Examinee">
+        <![CDATA[
+            UPDATE examinee
+            SET
+                user_id = #{userId},
+                exam_id = #{examId},
+                paper_id = #{paperId},
+                score = #{score},
+                attended_time = #{attendedTime},
+                answered_count = #{answeredCount},
+                comment = #{comment},
+                markers = #{markers}
+            WHERE id = #{id}
+        ]]>
+    </update>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM examinee WHERE id = #{id}
+        ]]>
+    </delete>
+
+</mapper>

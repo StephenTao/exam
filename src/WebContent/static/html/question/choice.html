@@ -1,0 +1,14 @@
+<div id="optionMessage" class="statictext" ng-class="{'option':true,'model-left':true,'color-style03':validator.option}">{{choiceLabel}}*</div>
+<div class="question-option model-right">
+    <div ng-repeat="option in question.formData.options" id="option.id" class="choice-layer">
+        <label class="checkbox">
+            <span ng-click="check(option)" class="checkBtn hand {{option.background}}"></span>
+        </label>
+        <label class="choice-title">{{option.character}}</label>
+        <div area id="option" ng-change="optionTextChanged(option)" ng-click="addBtn(option)" contenteditable="true" data-placeholder="{{questionMsg}}"
+            class="rich font-style06" ng-model="option.title"></div>
+        <span ng-show="option.visible">
+            <img ng-click="deleteRecord($index)" class="deleteBtn hand" alt="delete" ng-src="{{question.deleteImg}}" />
+        </span>
+    </div>
+</div>

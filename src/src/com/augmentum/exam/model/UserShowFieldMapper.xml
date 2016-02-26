@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.UserShowField">
+    <resultMap type="UserShowField" id="userShowFieldMap">
+        <id column="user_id" property="userId" />
+        <id column="show_field_id" property="showFieldId" />
+    </resultMap>
+
+    <insert id="add" parameterType="UserShowField">
+        <![CDATA[
+            INSERT INTO map_user_show_field (user_id, show_field_id) VALUES (#{userId}, #{showFieldId})
+        ]]>
+    </insert>
+
+    <select id="getByIds" parameterType="map" resultMap="userShowFieldMap">
+        <![CDATA[
+            SELECT * FROM map_user_show_field WHERE user_id = #{userId} AND show_field_id = #{showFieldId}
+        ]]>
+    </select>
+
+    <delete id="deleteByIds" parameterType="map">
+        <![CDATA[
+            DELETE FROM map_user_show_field WHERE user_id = #{userId} AND show_field_id = #{showFieldId}
+         ]]>
+    </delete>
+
+</mapper>

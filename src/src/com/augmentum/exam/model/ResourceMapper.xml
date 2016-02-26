@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.Resource">
+    <resultMap type="Resource" id="resourceMap">
+        <id column="id" property="id" />
+        <result column="url" property="url" />
+        <result column="create_time" property="createTime" />
+        <result column="user_id" property="userId" />
+    </resultMap>
+
+    <insert id="add" parameterType="Resource" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO resource (url, create_time, user_id) VALUES (#{url}, NOW(), #{userId})
+        ]]>
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM resource WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <select id="getById" parameterType="int" resultMap="resourceMap">
+        <![CDATA[
+            SELECT * FROM resource WHERE id = #{id}
+        ]]>
+    </select>
+</mapper>

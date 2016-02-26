@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.ShowField">
+    <resultMap type="ShowField" id="showFieldMap">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="category" property="category" />
+        <result column="order" property="order" />
+        <result column="is_must_showed" property="mustShowed" />
+        <result column="is_visible" property="visible" />
+    </resultMap>
+
+    <insert id="add" parameterType="ShowField" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO show_field
+                (name, category, `order`, is_must_showed, is_visible)
+            VALUES
+                (#{name}, #{category}, #{order}, #{mustShowed}, #{visible})
+        ]]>
+    </insert>
+
+    <select id="getById" parameterType="int" resultMap="showFieldMap">
+        <![CDATA[
+            SELECT * FROM show_field WHERE id = #{id}
+        ]]>
+    </select>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM show_field WHERE id = #{id}
+         ]]>
+    </delete>
+
+    <update id="update" parameterType="ShowField">
+        <![CDATA[
+            UPDATE show_field
+            SET
+                name = #{name},
+                category = #{category},
+                `order` = #{order},
+                is_must_showed = #{mustShowed},
+                is_visible = #{visible}
+            WHERE id = #{id}
+        ]]>
+    </update>
+
+</mapper>

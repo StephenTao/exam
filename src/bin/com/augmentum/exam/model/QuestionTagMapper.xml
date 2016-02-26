@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.QuestionTag">
+
+    <resultMap type="QuestionTag" id="questionTagMap">
+        <id column="question_id" property="questionId" />
+        <id column="tag_id" property="tagId" />
+    </resultMap>
+
+    <insert id="add" parameterType="QuestionTag">
+        <![CDATA[
+            INSERT INTO map_question_tag (question_id, tag_id) VALUES (#{questionId}, #{tagId})
+        ]]>
+    </insert>
+
+    <select id="getByIds" parameterType="map" resultMap="questionTagMap">
+        <![CDATA[
+            SELECT * FROM map_question_tag WHERE question_id = #{questionId} AND tag_id = #{tagId}
+        ]]>
+    </select>
+
+    <delete id="deleteByIds" parameterType="map">
+        <![CDATA[
+            DELETE FROM map_question_tag WHERE question_id = #{questionId} AND tag_id = #{tagId}
+         ]]>
+    </delete>
+
+</mapper>

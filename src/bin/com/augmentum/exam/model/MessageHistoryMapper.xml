@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.MessageHistory">
+    <resultMap type="MessageHistory" id="messageHistoryMap">
+        <id column="id" property="id" />
+        <result column="entity_id" property="entityId" />
+        <result column="created_time" property="createdTime" />
+        <result column="title" property="title" />
+        <result column="message_type_id" property="messageTypeId" />
+    </resultMap>
+
+    <insert id="add" parameterType="MessageHistory" useGeneratedKeys="false" keyProperty="id">
+        <![CDATA[
+            INSERT INTO message_history
+                (id, entity_id, message_type_id, title, created_time)
+            VALUES
+                (#{id}, #{entityId}, #{messageTypeId}, #{title}, #{createdTime})
+        ]]>
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM message_history WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <update id="update" parameterType="MessageHistory">
+        <![CDATA[
+            UPDATE message_history
+            SET
+                entity_id = #{entityId},
+                title = #{title},
+                message_type_id = #{messageTypeId}
+            WHERE id = #{id}
+        ]]>
+    </update>
+
+    <select id="getById" parameterType="int" resultMap="messageHistoryMap">
+        <![CDATA[
+            SELECT * FROM message_history WHERE id = #{id}
+        ]]>
+    </select>
+</mapper>

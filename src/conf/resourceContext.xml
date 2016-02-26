@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:hdp="http://www.springframework.org/schema/hadoop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+        http://www.springframework.org/schema/cache
+        http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.1.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+    <bean id="uriRegexCache" class="com.augmentum.exam.cache.UriRegexCache">
+        <property name="uriRegexs">
+            <map>
+                <entry key="page/user/login">
+                    <ref bean="loginResource"></ref>
+                </entry>
+                <entry key="page/user/dashboard">
+                    <ref bean="dashboardResource"></ref>
+                </entry>
+                <entry key="page/question/create-question">
+                    <ref bean="createQuestionResource"></ref>
+                </entry>
+                <entry key="page/question/question-list">
+                    <ref bean="questionListResource"></ref>
+                </entry>
+                <entry key="page/question/myquestion">
+                    <ref bean="myQuestionResource"></ref>
+                </entry>
+                <entry key="page/exam/create-exam">
+                    <ref bean="createExamResource"></ref>
+                </entry>
+                <entry key="page/exam/exam-list">
+                    <ref bean="examListResource"></ref>
+                </entry>
+                <entry key="page/exam/myexam">
+                    <ref bean="myExamResource"></ref>
+                </entry>
+                <entry key="page/tag/create-tag">
+                    <ref bean="createTagResource"></ref>
+                </entry>
+                <entry key="page/tag/tag-list">
+                    <ref bean="tagListResource"></ref>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    <bean id="loginResource" class="com.augmentum.exam.dto.UriRegexDTO">
+        <property name="cssFiles">
+            <list>
+                <value><![CDATA[static/style/base.css?v=${version}]]></value>
+                <value><![CDATA[static/style/login.css?v=${version}]]></value>
+            </list>
+        </property>
+        <property name="jsFiles">
+            <list>
+                <map>
+                    <entry key="src">
+                        <value><![CDATA[static/js/lib/require.js?v=${version}]]></value>
+                    </entry>
+                    <entry key="data-main">
+                        <value><![CDATA[static/js/main/login]]></value>
+                    </entry>
+                </map>
+            </list>
+        </property>
+    </bean>
+    <bean id="dashboardResource" class="com.augmentum.exam.dto.UriRegexDTO">
+        <property name="cssFiles">
+            <list>
+                <value><![CDATA[static/style/base.css?v=${version}]]></value>
+                <value><![CDATA[static/style/frame.css?v=${version}]]></value>
+                <value><![CDATA[static/style/jquery-ui.css?v=${version}]]></value>
+            </list>
+        </property>
+        <property name="jsFiles">
+            <list>
+                <map>
+                    <entry key="src">
+                        <value><![CDATA[static/js/lib/require.js?v=${version}]]></value>
+                    </entry>
+                    <entry key="data-main">
+                        <value><![CDATA[static/js/main/dashboard]]></value>
+                    </entry>
+                </map>
+            </list>
+        </property>
+    </bean>
+    <bean id="createQuestionResource" class="com.augmentum.exam.dto.UriRegexDTO">
+        <property name="cssFiles">
+            <list>
+                <value><![CDATA[static/style/base.css?v=${version}]]></value>
+                <value><![CDATA[static/style/question.css?v=${version}]]></value>
+                <value><![CDATA[static/style/jquery-ui.css?v=${version}]]></value>
+                <value><![CDATA[static/style/frame.css?v=${version}]]></value>
+            </list>
+        </property>
+        <property name="jsFiles">
+            <list>
+                <map>
+                    <entry key="src">
+                        <value><![CDATA[static/js/lib/require.js?v=${version}]]></value>
+                    </entry>
+                    <entry key="data-main">
+                        <value><![CDATA[static/js/main/create-question]]></value>
+                    </entry>
+                </map>
+            </list>
+        </property>
+    </bean>
+    <bean id="questionListResource" class="com.augmentum.exam.dto.UriRegexDTO">
+        <property name="cssFiles">
+            <list>
+                <value><![CDATA[static/style/base.css?v=${version}]]></value>
+                <value><![CDATA[static/style/frame.css?v=${version}]]></value>
+            </list>
+        </property>
+        <property name="jsFiles">
+            <list>
+                <map>
+                    <entry key="src">
+                        <value><![CDATA[static/js/lib/require.js?v=${version}]]></value>
+                    </entry>
+                    <entry key="data-main">
+                        <value><![CDATA[static/js/main/question-list]]></value>
+                    </entry>
+                </map>
+            </list>
+        </property>
+    </bean>
+    <bean id="myQuestionResource" class="com.augmentum.exam.dto.UriRegexDTO">
+        <property name="cssFiles">
+            <list>
+                <value><![CDATA[static/style/base.css?v=${version}]]></value>
+                <value><![CDATA[static/style/frame.css?v=${version}]]></value>
+            </list>
+        </property>
+        <property name="jsFiles">
+            <list>
+                <map>
+                    <entry key="src">
+                        <value><![CDATA[static/js/lib/require.js?v=${version}]]></value>
+                    </entry>
+                    <entry key="data-main">
+                        <value><![CDATA[static/js/main/myquestion]]></value>
+                    </entry>
+                </map>
+            </list>
+        </property>
+    </bean>
+    <bean id="myExamResource" class="com.augmentum.exam.dto.UriRegexDTO">
+        <property name="cssFiles">
+            <list>
+                <value><![CDATA[static/style/base.css?v=${version}]]></value>
+                <value><![CDATA[static/style/frame.css?v=${version}]]></value>
+            </list>
+        </property>
+        <property name="jsFiles">
+            <list>
+                <map>
+                    <entry key="src">
+                        <value><![CDATA[static/js/lib/require.js?v=${version}]]></value>
+                    </entry>
+                    <entry key="data-main">
+                        <value><![CDATA[static/js/main/myexam]]></value>
+                    </entry>
+                </map>
+            </list>
+        </property>
+    </bean>
+    <bean id="examListResource" class="com.augmentum.exam.dto.UriRegexDTO">
+        <property name="cssFiles">
+            <list>
+                <value><![CDATA[static/style/base.css?v=${version}]]></value>
+                <value><![CDATA[static/style/frame.css?v=${version}]]></value>
+            </list>
+        </property>
+        <property name="jsFiles">
+            <list>
+                <map>
+                    <entry key="src">
+                        <value><![CDATA[static/js/lib/require.js?v=${version}]]></value>
+                    </entry>
+                    <entry key="data-main">
+                        <value><![CDATA[static/js/main/exam-list]]></value>
+                    </entry>
+                </map>
+            </list>
+        </property>
+    </bean>
+    <bean id="createExamResource" class="com.augmentum.exam.dto.UriRegexDTO">
+        <property name="cssFiles">
+            <list>
+                <value><![CDATA[static/style/base.css?v=${version}]]></value>
+                <value><![CDATA[static/style/frame.css?v=${version}]]></value>
+            </list>
+        </property>
+        <property name="jsFiles">
+            <list>
+                <map>
+                    <entry key="src">
+                        <value><![CDATA[static/js/lib/require.js?v=${version}]]></value>
+                    </entry>
+                    <entry key="data-main">
+                        <value><![CDATA[static/js/main/create-exam]]></value>
+                    </entry>
+                </map>
+            </list>
+        </property>
+    </bean>
+    <bean id="createTagResource" class="com.augmentum.exam.dto.UriRegexDTO">
+        <property name="cssFiles">
+            <list>
+                <value><![CDATA[static/style/base.css?v=${version}]]></value>
+                <value><![CDATA[static/style/frame.css?v=${version}]]></value>
+            </list>
+        </property>
+        <property name="jsFiles">
+            <list>
+                <map>
+                    <entry key="src">
+                        <value><![CDATA[static/js/lib/require.js?v=${version}]]></value>
+                    </entry>
+                    <entry key="data-main">
+                        <value><![CDATA[static/js/main/create-tag]]></value>
+                    </entry>
+                </map>
+            </list>
+        </property>
+    </bean>
+    <bean id="tagListResource" class="com.augmentum.exam.dto.UriRegexDTO">
+        <property name="cssFiles">
+            <list>
+                <value><![CDATA[static/style/base.css?v=${version}]]></value>
+                <value><![CDATA[static/style/frame.css?v=${version}]]></value>
+            </list>
+        </property>
+        <property name="jsFiles">
+            <list>
+                <map>
+                    <entry key="src">
+                        <value><![CDATA[static/js/lib/require.js?v=${version}]]></value>
+                    </entry>
+                    <entry key="data-main">
+                        <value><![CDATA[static/js/main/tag-list]]></value>
+                    </entry>
+                </map>
+            </list>
+        </property>
+    </bean>
+</beans>

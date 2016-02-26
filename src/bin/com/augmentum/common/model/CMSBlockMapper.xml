@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.common.model.CMSBlock">
+    <resultMap type="CMSBlock" id="cmsBlockMap">
+        <id column="id" property="id"/>
+        <result column="alias" property="alias"/>
+        <result column="content" property="content"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_time" property="updatedTime"/>
+        <result column="creator" property="creator"/>
+        <result column="is_actived" property="isActived"/>
+    </resultMap>
+
+    <resultMap type="com.augmentum.common.dto.CMSBlockDTO" id="cmsBlockDTOMap">
+        <id column="id" property="id"/>
+        <result column="alias" property="alias"/>
+        <result column="content" property="content"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_time" property="updatedTime"/>
+        <result column="creator" property="creator"/>
+        <result column="creator_name" property="creatorName"/>
+        <result column="is_actived" property="isActived"/>
+    </resultMap>
+
+    <insert id="add" parameterType="CMSBlock" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO cms_block
+                (alias, content, created_time, updated_time, creator, is_actived)
+            VALUES
+                (#{alias}, #{content}, NOW(), NOW(), #{creator} ,#{isActived})
+        ]]>
+    </insert>
+
+    <update id="delete" parameterType="Integer">
+        <![CDATA[
+            DELETE FROM cms_block WHERE id = #{id}
+         ]]>
+    </update>
+
+    <update id="update" parameterType="CmsBlock">
+        <![CDATA[
+            UPDATE cms_block
+            SET
+                alias = #{alias},
+                content = #{content},
+                updated_time = #{updatedTime},
+                is_actived = #{isActived}
+            WHERE
+                id = #{id}
+        ]]>
+    </update>
+
+    <select id="getById" parameterType="Integer" resultMap="cmsBlockMap">
+        <![CDATA[
+            SELECT * FROM cms_block WHERE id = #{id}
+        ]]>
+    </select>
+
+    <select id="getByName" parameterType="String" resultMap="cmsBlockDTOMap">
+        <![CDATA[
+            SELECT * FROM cms_block WHERE alias = #{blockName}
+        ]]>
+    </select>
+
+    <sql id="pagination">
+        <if test="offset != null and rowCount != null">
+            <![CDATA[
+                LIMIT #{offset},#{rowCount}
+            ]]>
+        </if>
+    </sql>
+
+    <select id="findCMSBlocks" parameterType="map" resultMap="cmsBlockDTOMap">
+        <![CDATA[
+            SELECT
+                cb.id AS id,
+                cb.alias AS alias,
+                cb.created_time AS created_time,
+                cb.updated_time AS updated_time,
+                cb.creator AS creator,
+                cb.is_actived As is_actived,
+                us.user_name AS creator_name
+            FROM cms_block cb
+            INNER JOIN user us
+            ON
+                cb.creator = us.id
+            WHERE
+                us.is_deleted = 0
+        ]]>
+        <if test="keywords != null">
+            <![CDATA[
+                AND cb.alias LIKE CONCAT('%',#{keywords},'%')
+            ]]>
+        </if>
+        <![CDATA[
+            ORDER BY id DESC
+        ]]>
+        <include refid="pagination"/>
+    </select>
+
+    <select id="getCMSBlockCount" parameterType="map" resultType="Integer">
+        <![CDATA[
+            SELECT COUNT(id)
+            FROM cms_block
+        ]]>
+        <if test="keywords != null">
+            <![CDATA[
+                WHERE alias LIKE CONCAT('%',#{keywords},'%')
+            ]]>
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.Log">
+    <resultMap type="Log" id="logMap">
+        <id column="id" property="id"/>
+        <result column="entity_id" property="entityId"/>
+        <result column="entity_type" property="entityType"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="content" property="content"/>
+        <result column="user_id" property="userId"/>
+    </resultMap>
+
+    <insert id="add" parameterType="Log" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO log
+                (entity_id, entity_type, user_id, content, created_time)
+            VALUES
+                (#{entityId}, #{entityType}, #{userId}, #{content}, NOW())
+        ]]>
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM log WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <update id="update" parameterType="Log">
+        <![CDATA[
+            UPDATE log
+            SET
+                entity_id = #{entityId},
+                entity_type = #{entityType},
+                user_id = #{userId},
+                content = #{content}
+            WHERE id = #{id}
+        ]]>
+    </update>
+
+    <select id="getById" parameterType="int" resultMap="logMap">
+        <![CDATA[
+            SELECT * FROM log WHERE id = #{id}
+        ]]>
+    </select>
+
+</mapper>

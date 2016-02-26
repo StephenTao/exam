@@ -1,0 +1,173 @@
+@charset "utf-8";
+/* Main Frame */
+/* Header, Top Menu */
+header {
+    background: #29302e;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+    height: 70px;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.inner-wrap {
+    position: relative;
+    margin: 0 auto;
+    width: 94%;
+    height: 100%;
+    min-width: 750px;
+}
+
+.menu-children:after {
+    content: "";
+    display: block;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: transparent;
+    border-right-width: 8px;
+    border-left-width: 8px;
+    border-top-width: 1px;
+    border-bottom-width: 8px;
+    border-bottom-color: #414544;
+    top: -9px;
+}
+
+.static-left {
+    left: 0;
+    width: 60%;
+    min-width: 400px;
+}
+
+.menu {
+    width: auto;
+    height: auto;
+    float: left;
+    position: relative;
+    font-weight: bold;
+}
+
+.menu a {
+    
+}
+
+.inner-wrap>div {
+    position: absolute;
+    top: 0px;
+    height: 60px;
+    margin-top: 10px;
+}
+
+.inner-wrap .left {
+    left: 0;
+    width: 20%;
+    margin-right: 5%;
+    position: absolute;
+    min-width: 150px;
+}
+
+.inner-wrap .center {
+    left: 20%;
+    width: 50%;
+    margin-left: 10%;
+    min-width: 400px;
+    position: absolute;
+}
+
+.menu>a {
+    display: block;
+    color: #B3ADA2;
+    margin-top: 14px;
+    margin-bottom: 24px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.menu-children a {
+    display: block;
+    color: #B3ADA2;
+}
+
+.inner-wrap .center a:hover {
+    color: #FFFFFF;
+}
+
+.inner-wrap .right {
+    right: 0;
+    width: 40%;
+    text-align: right;
+    overflow: hidden;
+    min-width: 250px;
+    padding-top: 8px;
+    padding-bottom: 17px;
+    height: 35px;
+}
+
+.inner-wrap .right a {
+    color: #CDE1D8;
+}
+
+.inner-wrap .right * {
+    vertical-align: middle;
+}
+
+.main-logo {
+    background: url(../images/logo.png) no-repeat;
+    display: block;
+    height: 55px;
+    width: 385px;
+}
+
+.logout {
+    margin-left: 15px;
+    height: 20px;
+}
+
+.upload {
+    margin-right: 30px;
+}
+
+.user-name {
+    line-height: 55px;
+    margin-left: 10px;
+    color: #C5DADE;
+    font-size: 14px;
+}
+
+.user-link {
+    height: 40px;
+    padding: 7px 0 0px 20px;
+}
+
+.user-login-link {
+    float: right;
+}
+
+.user-icon {
+    background: #FFF;
+    border-radius: 20px;
+    height: 40px;
+    position: relative;
+    text-align: center;
+    width: 40px;
+}
+
+.user-icon a img {
+    border-radius: 20px;
+    width: 40px;
+    height: 40px;
+}
+
+.language {
+    color: #FFFFFF;
+    margin-left: 20px;
+    background: #1DA688;
+    width: 19px;
+    height: 19px;
+    padding: 2px;
+    border: 0px;
+}

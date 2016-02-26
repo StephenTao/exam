@@ -1,0 +1,719 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : exam
+Source Server Version : 50623
+Source Host           : localhost:3306
+Source Database       : exam
+
+Target Server Type    : MYSQL
+Target Server Version : 50623
+File Encoding         : 65001
+
+Date: 2015-11-17 10:49:33
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+-- ----------------------------
+-- Table structure for `api`
+-- ----------------------------
+DROP TABLE IF EXISTS `api`;
+CREATE TABLE `api` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `limit` int(11) DEFAULT NULL,
+  `method` enum('post','get','delete','put','option') DEFAULT 'get',
+  `status` enum('close','open') DEFAULT 'open',
+  `url` varchar(500) DEFAULT NULL,
+  `description` varchar(6000) DEFAULT NULL,
+  `icon` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of api
+-- ----------------------------
+INSERT INTO `api` VALUES ('3', 'gresf', '12', 'get', 'open', 'http://augmentum.com.cn/exam/quesion', 'gertertwe', 'question.gif');
+INSERT INTO `api` VALUES ('5', 'exam api', '12', 'get', 'open', 'http://sdjflksjd.comn.cn', 'sdgeargheryertretreye', 'sd.png');
+
+-- ----------------------------
+-- Table structure for `exam`
+-- ----------------------------
+DROP TABLE IF EXISTS `exam`;
+CREATE TABLE `exam` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(15) NOT NULL,
+  `name` varchar(1000) NOT NULL,
+  `description` varchar(6000) DEFAULT NULL,
+  `start_time` datetime NOT NULL,
+  `end_time` datetime NOT NULL,
+  `duration` int(11) NOT NULL,
+  `is_published` tinyint(4) NOT NULL DEFAULT '0',
+  `is_result_published` tinyint(4) NOT NULL DEFAULT '0',
+  `attended_count` int(11) NOT NULL DEFAULT '0',
+  `examinee_count` int(11) NOT NULL DEFAULT '0',
+  `pass_rate` double DEFAULT NULL,
+  `pass_score` double DEFAULT NULL,
+  `average` double DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code_UNIQUE` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of exam
+-- ----------------------------
+INSERT INTO `exam` VALUES ('3', 'jsdkf4dsf4343', 'paper asdfspi', 'podsfsdsdfdsst', '2015-11-02 08:00:00', '2015-11-13 08:00:00', '70', '0', '0', '50', '45', '0.6', '65', '60.31');
+
+-- ----------------------------
+-- Table structure for `examinee`
+-- ----------------------------
+DROP TABLE IF EXISTS `examinee`;
+CREATE TABLE `examinee` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `exam_id` int(11) NOT NULL,
+  `paper_id` int(11) NOT NULL,
+  `score` double NOT NULL DEFAULT '0',
+  `attended_time` datetime DEFAULT NULL,
+  `answered_count` int(11) DEFAULT NULL,
+  `comment` varchar(1000) DEFAULT NULL,
+  `markers` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_examinee_exam` (`exam_id`),
+  KEY `fk_examinee_user` (`user_id`),
+  CONSTRAINT `fk_examinee_exam` FOREIGN KEY (`exam_id`) REFERENCES `exam` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_examinee_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of examinee
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `log`
+-- ----------------------------
+DROP TABLE IF EXISTS `log`;
+CREATE TABLE `log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_time` datetime NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `content` varchar(1000) DEFAULT NULL,
+  `entity_type` enum('question','paper','exam','api') NOT NULL,
+  `entity_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_log_user_idx` (`user_id`),
+  CONSTRAINT `fk_log_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of log
+-- ----------------------------
+INSERT INTO `log` VALUES ('1', '2015-10-29 19:36:33', '1', 'jsdkf4dsf4343', 'exam', '4');
+
+-- ----------------------------
+-- Table structure for `log_history`
+-- ----------------------------
+DROP TABLE IF EXISTS `log_history`;
+CREATE TABLE `log_history` (
+  `id` int(11) NOT NULL,
+  `created_time` datetime NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `content` varchar(1000) DEFAULT NULL,
+  `entity_type` enum('question','paper','exam','api') NOT NULL,
+  `entity_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_log_user_idx` (`user_id`),
+  CONSTRAINT `fk_log_user0` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of log_history
+-- ----------------------------
+INSERT INTO `log_history` VALUES ('2', '2015-10-20 13:41:37', '1', 'java abc', 'paper', '2');
+
+-- ----------------------------
+-- Table structure for `map_examinee_answer`
+-- ----------------------------
+DROP TABLE IF EXISTS `map_examinee_answer`;
+CREATE TABLE `map_examinee_answer` (
+  `examinee_id` int(11) NOT NULL,
+  `paper_question_id` int(11) NOT NULL,
+  `score` double DEFAULT NULL,
+  `answer` varchar(5000) DEFAULT NULL,
+  `comment` varchar(2000) DEFAULT NULL,
+  `markers` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`examinee_id`,`paper_question_id`),
+  KEY `fk_map_user_paper_question_map_user_exam1_idx` (`examinee_id`),
+  CONSTRAINT `fk_map_user_paper_question_map_user_exam1` FOREIGN KEY (`examinee_id`) REFERENCES `examinee` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of map_examinee_answer
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `map_exam_paper`
+-- ----------------------------
+DROP TABLE IF EXISTS `map_exam_paper`;
+CREATE TABLE `map_exam_paper` (
+  `exam_id` int(11) NOT NULL,
+  `paper_id` int(11) NOT NULL,
+  PRIMARY KEY (`paper_id`,`exam_id`),
+  KEY `fk_map_exam_paper_exam1_idx` (`exam_id`),
+  CONSTRAINT `fk_map_exam_paper__exam` FOREIGN KEY (`exam_id`) REFERENCES `exam` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_map_exam_paper_paper` FOREIGN KEY (`paper_id`) REFERENCES `paper` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of map_exam_paper
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `map_paper_exam`
+-- ----------------------------
+DROP TABLE IF EXISTS `map_paper_exam`;
+CREATE TABLE `map_paper_exam` (
+  `exam_id` int(11) NOT NULL,
+  `paper_id` int(11) NOT NULL,
+  PRIMARY KEY (`paper_id`,`exam_id`),
+  KEY `fk_map_paper_exam_exam1_idx` (`exam_id`),
+  CONSTRAINT `fk_map_paper_exam_exam` FOREIGN KEY (`exam_id`) REFERENCES `exam` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_map_paper_exam_paper` FOREIGN KEY (`paper_id`) REFERENCES `paper` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of map_paper_exam
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `map_paper_tag`
+-- ----------------------------
+DROP TABLE IF EXISTS `map_paper_tag`;
+CREATE TABLE `map_paper_tag` (
+  `paper_id` int(11) NOT NULL,
+  `tag_id` int(11) NOT NULL,
+  PRIMARY KEY (`paper_id`,`tag_id`),
+  KEY `fk_map_paper_tag_paper1` (`paper_id`),
+  KEY `fk_map_paper_tag_tag1` (`tag_id`),
+  CONSTRAINT `fk_map_paper_tag_paper1` FOREIGN KEY (`paper_id`) REFERENCES `paper` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_map_paper_tag_tag1` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of map_paper_tag
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `map_question_tag`
+-- ----------------------------
+DROP TABLE IF EXISTS `map_question_tag`;
+CREATE TABLE `map_question_tag` (
+  `question_id` int(11) NOT NULL,
+  `tag_id` int(11) NOT NULL,
+  PRIMARY KEY (`question_id`,`tag_id`),
+  KEY `fk_question_has_tag_tag1_idx` (`tag_id`),
+  KEY `fk_question_has_tag_question1_idx` (`question_id`),
+  CONSTRAINT `fk_question_has_tag_question` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_question_has_tag_tag` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of map_question_tag
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `map_role_privilege`
+-- ----------------------------
+DROP TABLE IF EXISTS `map_role_privilege`;
+CREATE TABLE `map_role_privilege` (
+  `role_id` int(11) NOT NULL,
+  `privilege_id` int(11) NOT NULL,
+  PRIMARY KEY (`role_id`,`privilege_id`),
+  KEY `fk_role_has_privilege_privilege1_idx` (`privilege_id`),
+  KEY `fk_role_has_privilege_role1_idx` (`role_id`),
+  CONSTRAINT `fk_role_privilege_privilege` FOREIGN KEY (`privilege_id`) REFERENCES `privilege` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_role_privilege_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of map_role_privilege
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `map_user_role`
+-- ----------------------------
+DROP TABLE IF EXISTS `map_user_role`;
+CREATE TABLE `map_user_role` (
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `fk_user_has_role_role1_idx` (`role_id`),
+  KEY `fk_user_has_role_user_idx` (`user_id`),
+  CONSTRAINT `fk_user_has_role_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_has_role_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of map_user_role
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `map_user_show_field`
+-- ----------------------------
+DROP TABLE IF EXISTS `map_user_show_field`;
+CREATE TABLE `map_user_show_field` (
+  `user_id` int(11) NOT NULL,
+  `show_field_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`show_field_id`),
+  KEY `fk_map_user_show_field_user_idx` (`user_id`),
+  KEY `fk_map_user_show_field_show_field_idx` (`show_field_id`),
+  CONSTRAINT `fk_map_user_show_field_show_field` FOREIGN KEY (`show_field_id`) REFERENCES `show_field` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_map_user_show_field_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of map_user_show_field
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `map_user_show_size`
+-- ----------------------------
+DROP TABLE IF EXISTS `map_user_show_size`;
+CREATE TABLE `map_user_show_size` (
+  `user_id` int(11) NOT NULL,
+  `show_size_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`show_size_id`),
+  KEY `fk_map_user_show_size_user_idx` (`user_id`),
+  KEY `fk_map_user_show_size_show_size_idx` (`show_size_id`),
+  CONSTRAINT `fk_map_user_show_size_show_size` FOREIGN KEY (`show_size_id`) REFERENCES `show_size` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_map_user_show_size_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of map_user_show_size
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `map_user_tag`
+-- ----------------------------
+DROP TABLE IF EXISTS `map_user_tag`;
+CREATE TABLE `map_user_tag` (
+  `user_id` int(11) NOT NULL,
+  `tag_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`tag_id`),
+  KEY `fk_user_has_tag_user_idx` (`user_id`),
+  KEY `fk_user_has_tag_tag_idx` (`tag_id`),
+  CONSTRAINT `fk_user_has_tag_tag0` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_has_user_user0` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of map_user_tag
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `marker`
+-- ----------------------------
+DROP TABLE IF EXISTS `marker`;
+CREATE TABLE `marker` (
+  `exam_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`exam_id`,`user_id`),
+  KEY `fk_map_grader_exam_exam1_idx` (`exam_id`),
+  KEY `fk_marker_user` (`user_id`),
+  CONSTRAINT `fk_map_grader_exam_exam` FOREIGN KEY (`exam_id`) REFERENCES `exam` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_marker_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of marker
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `message`
+-- ----------------------------
+DROP TABLE IF EXISTS `message`;
+CREATE TABLE `message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(1000) NOT NULL,
+  `entity_id` int(11) DEFAULT NULL,
+  `created_time` datetime NOT NULL,
+  `message_type_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_message_message_type1` (`message_type_id`),
+  CONSTRAINT `fk_message_message_type1` FOREIGN KEY (`message_type_id`) REFERENCES `message_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of message
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `message_history`
+-- ----------------------------
+DROP TABLE IF EXISTS `message_history`;
+CREATE TABLE `message_history` (
+  `id` int(11) NOT NULL,
+  `title` varchar(1000) NOT NULL,
+  `entity_id` int(11) DEFAULT NULL,
+  `created_time` datetime NOT NULL,
+  `message_type_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_message_message_type1` (`message_type_id`),
+  CONSTRAINT `fk_message_message_type10` FOREIGN KEY (`message_type_id`) REFERENCES `message_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of message_history
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `message_type`
+-- ----------------------------
+DROP TABLE IF EXISTS `message_type`;
+CREATE TABLE `message_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(45) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `template_url` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code_UNIQUE` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `paper`
+-- ----------------------------
+DROP TABLE IF EXISTS `paper`;
+CREATE TABLE `paper` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(15) NOT NULL,
+  `name` varchar(1000) NOT NULL,
+  `advice_duration` int(11) DEFAULT NULL,
+  `description` varchar(6000) DEFAULT NULL,
+  `creator_id` int(11) DEFAULT NULL,
+  `created_time` datetime NOT NULL,
+  `status` enum('draft','open','used','expired') DEFAULT NULL,
+  `total_score` double NOT NULL DEFAULT '0',
+  `total_question` int(11) NOT NULL DEFAULT '0',
+  `refer_paper_id` int(11) DEFAULT NULL,
+  `shadow_of` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code_UNIQUE` (`code`),
+  KEY `fk_paper_user_idx` (`creator_id`),
+  CONSTRAINT `fk_paper_user` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of paper
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `paper_part`
+-- ----------------------------
+DROP TABLE IF EXISTS `paper_part`;
+CREATE TABLE `paper_part` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `total_question` int(11) NOT NULL DEFAULT '0',
+  `total_score` double NOT NULL DEFAULT '0',
+  `description` varchar(6000) DEFAULT NULL,
+  `order` int(11) NOT NULL DEFAULT '0',
+  `paper_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_paper_part_paper1_idx` (`paper_id`),
+  CONSTRAINT `fk_paper_part_paper` FOREIGN KEY (`paper_id`) REFERENCES `paper` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of paper_part
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `paper_question`
+-- ----------------------------
+DROP TABLE IF EXISTS `paper_question`;
+CREATE TABLE `paper_question` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(6000) NOT NULL,
+  `title_text` varchar(6000) NOT NULL,
+  `answer` varchar(6000) DEFAULT NULL,
+  `question_type_id` int(11) NOT NULL,
+  `source` varchar(100) DEFAULT NULL,
+  `cteated_time` datetime NOT NULL,
+  `author_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `order` int(11) NOT NULL DEFAULT '0',
+  `score` double NOT NULL DEFAULT '0',
+  `refer_question_id` int(11) DEFAULT NULL,
+  `paper_part_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_paper_question_paper_part1_idx` (`paper_part_id`),
+  KEY `fk_paper_question_question_type1` (`question_type_id`),
+  CONSTRAINT `fk_paper_question_paper_part1` FOREIGN KEY (`paper_part_id`) REFERENCES `paper_part` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_paper_question_question_type1` FOREIGN KEY (`question_type_id`) REFERENCES `question_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of paper_question
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `paper_question_option`
+-- ----------------------------
+DROP TABLE IF EXISTS `paper_question_option`;
+CREATE TABLE `paper_question_option` (
+  `title` varchar(6000) NOT NULL,
+  `title_text` varchar(6000) NOT NULL,
+  `correct` tinyint(4) NOT NULL DEFAULT '0',
+  `paper_question_id` int(11) NOT NULL,
+  `order` int(11) NOT NULL DEFAULT '0',
+  KEY `fk_option_question1_idx` (`paper_question_id`),
+  CONSTRAINT `fk_option_question` FOREIGN KEY (`paper_question_id`) REFERENCES `paper_question` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of paper_question_option
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `privilege`
+-- ----------------------------
+DROP TABLE IF EXISTS `privilege`;
+CREATE TABLE `privilege` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code_UNIQUE` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of privilege
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `question`
+-- ----------------------------
+DROP TABLE IF EXISTS `question`;
+CREATE TABLE `question` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(15) NOT NULL,
+  `title` varchar(6000) NOT NULL,
+  `title_text` varchar(6000) NOT NULL,
+  `answer` varchar(6000) DEFAULT NULL,
+  `question_type_id` int(11) NOT NULL,
+  `source` varchar(100) DEFAULT NULL,
+  `created_time` datetime NOT NULL,
+  `updated_time` datetime DEFAULT NULL,
+  `status` enum('new','accpet','update','reject') DEFAULT 'new',
+  `author` varchar(100) DEFAULT NULL,
+  `author_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `prev_version_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code_UNIQUE` (`code`),
+  KEY `fk_question_question_type1_idx` (`question_type_id`),
+  CONSTRAINT `fk_question_question_type1` FOREIGN KEY (`question_type_id`) REFERENCES `question_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `question_comment`
+-- ----------------------------
+DROP TABLE IF EXISTS `question_comment`;
+CREATE TABLE `question_comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `content` varchar(1000) NOT NULL,
+  `created_time` datetime NOT NULL,
+  `refer_id` int(11) DEFAULT NULL,
+  `status` enum('new','accpet') NOT NULL DEFAULT 'new',
+  PRIMARY KEY (`id`),
+  KEY `fk_question_comment_question1_idx` (`question_id`),
+  KEY `fk_question_comment_user_idx` (`user_id`),
+  CONSTRAINT `fk_question_comment_question` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_question_comment_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of question_comment
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `question_copy`
+-- ----------------------------
+DROP TABLE IF EXISTS `question_copy`;
+CREATE TABLE `question_copy` (
+  `id` int(11) NOT NULL,
+  `code` varchar(15) NOT NULL,
+  `title` varchar(6000) NOT NULL,
+  `title_text` varchar(6000) NOT NULL,
+  `answer` varchar(6000) DEFAULT NULL,
+  `question_type_id` int(11) NOT NULL,
+  `source` varchar(100) DEFAULT NULL,
+  `created_time` datetime NOT NULL,
+  `updated_time` datetime DEFAULT NULL,
+  `status` enum('new','accept','reject') NOT NULL DEFAULT 'new',
+  `author` varchar(100) DEFAULT NULL,
+  `author_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code_UNIQUE` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of question_copy
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `question_option`
+-- ----------------------------
+DROP TABLE IF EXISTS `question_option`;
+CREATE TABLE `question_option` (
+  `title` varchar(6000) NOT NULL,
+  `title_text` varchar(6000) NOT NULL,
+  `correct` tinyint(4) NOT NULL DEFAULT '0',
+  `question_id` int(11) NOT NULL,
+  `order` int(11) NOT NULL DEFAULT '0',
+  KEY `fk_option_question1_idx` (`question_id`),
+  CONSTRAINT `fk_option_question1` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of question_option
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `question_type`
+-- ----------------------------
+DROP TABLE IF EXISTS `question_type`;
+CREATE TABLE `question_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(45) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `role`
+-- ----------------------------
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(45) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `weight` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code_UNIQUE` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `show_field`
+-- ----------------------------
+DROP TABLE IF EXISTS `show_field`;
+CREATE TABLE `show_field` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `category` varchar(45) NOT NULL,
+  `order` int(11) NOT NULL,
+  `is_must_showed` tinyint(4) NOT NULL DEFAULT '0',
+  `is_visible` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of show_field
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `show_size`
+-- ----------------------------
+DROP TABLE IF EXISTS `show_size`;
+CREATE TABLE `show_size` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_size` int(11) NOT NULL,
+  `category` varchar(45) NOT NULL,
+  `is_default_showed` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of show_size
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tag`
+-- ----------------------------
+DROP TABLE IF EXISTS `tag`;
+CREATE TABLE `tag` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `weight` int(6) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `user`
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `job_number` varchar(15) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `password` varchar(32) NOT NULL DEFAULT 'e397433ba52b69656be325c89581b13a',
+  `icon` varchar(500) DEFAULT NULL,
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `user_api`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_api`;
+CREATE TABLE `user_api` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `api_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `app_name` varchar(100) NOT NULL,
+  `ip` varchar(45) NOT NULL,
+  `key` varchar(1000) NOT NULL,
+  `status` enum('new','accept','reject') NOT NULL DEFAULT 'new',
+  `reason` varchar(2000) NOT NULL,
+  `created_time` datetime NOT NULL,
+  `comment` varchar(2000) DEFAULT NULL,
+  `phone` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_user_api_api` (`api_id`),
+  KEY `fk_user_api_user_idx` (`user_id`),
+  CONSTRAINT `fk_user_api_api` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_api_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_api
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `user_message`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_message`;
+CREATE TABLE `user_message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(1000) NOT NULL,
+  `message_type_id` int(11) NOT NULL,
+  `received_time` datetime NOT NULL,
+  `url` varchar(500) DEFAULT NULL,
+  `from_user_id` int(11) DEFAULT NULL,
+  `message_id` int(11) NOT NULL,
+  `to_user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_user_message_message` (`message_id`),
+  CONSTRAINT `fk_user_message_message` FOREIGN KEY (`message_id`) REFERENCES `message` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.exam.model.UserMessage">
+    <resultMap type="UserMessage" id="userMessageMap">
+        <id column="id" property="id" />
+        <result column="message_type_id" property="messageTypeId" />
+        <result column="url" property="url" />
+        <result column="received_time" property="receivedTime" />
+        <result column="title" property="title" />
+        <result column="from_user_id" property="fromUserId" />
+        <result column="message_id" property="messageId" />
+        <result column="to_user_id" property="toUserId" />
+    </resultMap>
+
+    <insert id="add" parameterType="UserMessage" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO user_message
+                (title, message_type_id, from_user_id, to_user_id, received_time, url, message_id)
+            VALUES
+                (#{title}, #{messageTypeId}, #{fromUserId}, #{toUserId}, NOW(), #{url}, #{messageId})
+        ]]>
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            DELETE FROM user_message WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <update id="update" parameterType="UserMessage">
+        <![CDATA[
+            UPDATE user_message
+            SET
+                title = #{title},
+                message_type_id = #{messageTypeId},
+                from_user_id = #{fromUserId},
+                to_user_id = #{toUserId},
+                url = #{url},
+                message_id = #{messageId}
+            WHERE id = #{id}
+        ]]>
+    </update>
+
+    <select id="getById" parameterType="int" resultMap="userMessageMap">
+        <![CDATA[
+            SELECT * FROM user_message WHERE id = #{id}
+        ]]>
+    </select>
+</mapper>
